@@ -19,4 +19,12 @@ router.get('/', passport.authenticate('adminAuth', {
     session: false
 }), controller.hapusFoto)
 
+router.get('/', passport.authenticate('adminAuth', {
+    session: false
+}), controller.tambahFoto)
+
+router.get('/', passport.authenticate('adminAuth', {
+    session: false
+}), controller.hapusWisata)
+
 module.exports = router

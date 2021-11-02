@@ -6,7 +6,7 @@ const wisataShema = new Shema({
         type: String,
         required: true
     },
-    travel_categori: {
+    travel_category: {
         type: String,
         enum: [
             "Wisata Air",
@@ -15,12 +15,24 @@ const wisataShema = new Shema({
         ],
         required: true,
     },
+    slug: {
+        type: String,
+        required: true
+    },
     location: [{
         latitude: {
             type: String,
             required: true
         },
         longitude: {
+            type: String,
+            required: true
+        },
+        district: {
+            type: String,
+            required: true
+        },
+        address: {
             type: String,
             required: true
         }
@@ -41,25 +53,10 @@ const wisataShema = new Shema({
             required: true
         }
     }],
-    events: [{
-        name: {
-            type: String,
-            required: true
-        },
-        description: {
-            type: String,
-            required: true
-        },
-        date: {
-            default: null,
-            type: Date,
-            required: true
-        }
-    }],
     thumbnail: {
         type: String,
         required: true
-    }
+    },
 }, {
     collection: 'wisata'
 })

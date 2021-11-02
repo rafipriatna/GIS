@@ -26,40 +26,33 @@ const uploadImg1 = multer({
 
 exports.inputWisata = (req, res) => {
     //upload gambar
-    uploadImg(req, res, function(error) {
-        if (error) {
-            // jika error jalankan pesan error
-            return res.status(500).json(error)
-        } else {
-            let gallery = [];
-            req.file.map((file) => {
-                    gallery.push({
-                        foto: file.filename
-                    })
-                })
-                // deklarasi variabel
-            const data = {
-                name: req.body.name,
-                travel_category: req.body.kategori,
-                location: req.body.location,
-                description: req.body.description,
-                galleries: gallery,
-                facilities: req.body.facilities,
-                events: req.body.events
-            }
 
-            // masukkan file
-            const saveDb = new modelArtikel(data)
-            saveDb.save()
-                .then(saveDb => {
-                    return res.status(200).json({
-                        message: 'Tempat wisata berhasil di tambahakan!'
-                    })
-                }).catch((error) => {
-                    res.status(500).json(error)
-                })
+    if (error) {
+        // jika error jalankan pesan error
+        return res.status(500).json(error)
+    } else {
+        // deklarasi variabel
+        const data = {
+            name: req.body.name,
+            travel_category: req.body.kategory,
+            slug: req.body.slug,
+            location: req.body.location,
+            description: req.body.description,
+            facilities: req.body.facilities,
+            thumbnail: req.body.thumbnail
         }
-    })
+
+        // masukkan file
+        const saveDb = new modelArtikel(data)
+        saveDb.save()
+            .then(saveDb => {
+                return res.status(200).json({
+                    message: 'Tempat wisata berhasil di tambahakan!'
+                })
+            }).catch((error) => {
+                res.status(500).json(error)
+            })
+    }
 }
 
 //ubah tempat wisata
@@ -83,8 +76,9 @@ exports.ubaWisata = (req, res) => {
     )
 }
 
+// tambah 1 foto
 exports.tambahFoto = (req, res) => {
-    uploadImg1(req, res, (error) => {
+    uploadImg(req, res, (error) => {
         if (error) {
             res.status(500).json({
                 message: 'file upload error, Format file harus JPG atau PNG'
