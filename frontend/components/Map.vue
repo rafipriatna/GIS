@@ -10,6 +10,7 @@
             :options="{ attributionControl: false }"
           >
             <l-tile-layer :url="map.url"></l-tile-layer>
+            <l-geo-json :geojson="map.geoJSON"></l-geo-json>
             <l-control-attribution
               position="bottomright"
               :prefix="map.attribution"
@@ -125,16 +126,18 @@
 </template>
 
 <script>
+import tangerangKotaJson from "@/assets/tangerangkotapoly.json";
+
 export default {
   data() {
     return {
       map: {
-        center: [-6.1765123, 106.579994],
-        zoom: 11,
+        center: [-6.155821, 106.669354],
+        zoom: 12,
         url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         attribution:
           'Map oleh &copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a>. Terima kasih kepada <a target="_blank" href="https://leafletjs.com/">Leaflet</a> untuk library map Javascript yang keren ini.',
-        icon: null,
+        geoJSON: tangerangKotaJson,
       },
       cariLokasiWisata: "",
       lokasiWisata: [
