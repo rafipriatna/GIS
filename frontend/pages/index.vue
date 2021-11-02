@@ -6,6 +6,7 @@
       <Brands />
       <WisataPopuler />
       <Map />
+      <Footer />
     </div>
   </div>
 </template>
