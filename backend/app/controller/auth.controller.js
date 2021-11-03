@@ -71,3 +71,16 @@ async function cekLogin(getInput, getDb) {
             return false
         })
 }
+
+exports.listAdmin = (req, res) => {
+    modelAdmin
+        .find()
+        .then(listAdmin => {
+            return res.status(200).json({
+                message: 'Daftar admin',
+                date: listAdmin
+            })
+        }).catch((error) => {
+            req.status(500).json(error)
+        })
+}
