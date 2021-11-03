@@ -162,7 +162,7 @@ exports.listWisata = (req, res) => {
         .then(listWisata => {
             return res.status(200).json({
                 message: 'Daftar tempat wisata',
-                date: listWisata
+                data: listWisata
             })
         }).catch((error) => {
             req.status(500).json(error)
