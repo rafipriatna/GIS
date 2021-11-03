@@ -48,13 +48,20 @@ app.get('/', (req, res) => {
 })
 
 // panggil fungsi router
+const pengunjung = require('./app/routes/pengunjung.route')
+app.use('/api/', pengunjung)
+
 const auth = require('./app/routes/auth.route')
 app.use('/api/auth', auth)
 
 const wisata = require('./app/routes/wisata.route')
 app.use('/api/admin/wisata', wisata)
 
+
 // jalankan port
 app.listen('7000', () => {
     console.log('Server telah berjalan')
 })
+
+
+// mengubah route dan controller

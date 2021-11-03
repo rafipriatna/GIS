@@ -1,8 +1,9 @@
 const modelWisata = require('../model/wisata.model');
+const { model } = require('mongoose');
+const lokasiGambar = 'public/images/';
 const multer = require('multer');
 const fs = require('fs');
-const { model } = require('mongoose');
-const lokasiGambar = 'public/images/'
+
 
 const filter = (req, file, callback) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
@@ -76,7 +77,7 @@ exports.ubaWisata = (req, res) => {
     )
 }
 
-// tambah 1 foto
+// tambah foto
 exports.tambahFoto = (req, res) => {
     uploadImg(req, res, (error) => {
         if (error) {
@@ -111,28 +112,29 @@ exports.tambahFoto = (req, res) => {
 
 //hapus foto
 exports.hapusFoto = (req, res) => {
-    model.findById(req.params.id, function(error, data) {
-        if (error) {
-            return res.status(500).json(error)
-        }
-        if (fs.existsSync(path + req.body.file)) {
-            fs.unlinkSync(path + req.body.file)
-        }
-        foto_galeri = [];
-        data.foto_galeri
-            .filter((file) => file.file != req.body.file)
-            .map((file) => foto_galeri.push(file))
-        model.updateOne({ _id: req.params.id }, { foto_galeri: foto_galeri },
-            function(error) {
-                if (error) {
-                    return res.status(500).json(error)
-                    res.status(200).json({
-                        message: 'Berhasil menghapus foto!'
-                    })
-                }
+    modelGambar
+        .model.findById(req.params.id, function(error, data) {
+            if (error) {
+                return res.status(500).json(error)
             }
-        )
-    })
+            if (fs.existsSync(path + req.body.file)) {
+                fs.unlinkSync(path + req.body.file)
+            }
+            foto_galeri = [];
+            data.foto_galeri
+                .filter((file) => file.file != req.body.file)
+                .map((file) => foto_galeri.push(file))
+            model.updateOne({ _id: req.params.id }, { foto_galeri: foto_galeri },
+                function(error) {
+                    if (error) {
+                        return res.status(500).json(error)
+                        res.status(200).json({
+                            message: 'Berhasil menghapus foto!'
+                        })
+                    }
+                }
+            )
+        })
 }
 
 //
