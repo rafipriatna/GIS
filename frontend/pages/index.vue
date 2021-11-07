@@ -13,7 +13,7 @@
       </p>
       <Destinasi />
       <h1 class="text-4xl font-bold text-center my-20">Destinasi Wisata</h1>
-      <Map />
+      <Map class="h-screen"/>
       <Footer />
     </div>
   </div>

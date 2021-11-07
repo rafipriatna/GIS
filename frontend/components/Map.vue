@@ -1,6 +1,6 @@
 <template>
   <div class="font-poppins" id="destinasi-wisata">
-    <section class="text-gray-600 body-font relative h-screen rounded-md">
+    <section class="text-gray-600 body-font relative h-full">
       <div class="absolute inset-0 bg-gray-300">
         <no-ssr>
           <l-map
