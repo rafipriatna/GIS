@@ -1,7 +1,7 @@
 <template>
   <div class="font-poppins">
     <h1 class="text-4xl font-bold text-center my-20">Destinasi Wisata</h1>
-    <section class="text-gray-600 body-font relative">
+    <section class="text-gray-600 body-font relative h-screen rounded-md">
       <div class="absolute inset-0 bg-gray-300">
         <no-ssr>
           <l-map
@@ -40,84 +40,125 @@
             md:w-1/2
             bg-white
             rounded-lg
-            p-8
             flex flex-col
             md:ml-auto
             w-full
-            mt-10
-            md:mt-0
+            lg:mt-5
             relative
-            z-10
             shadow-md
+            z-10
+            p-8
           "
         >
-          <h2 class="text-gray-900 text-lg mb-1 font-medium mb-5 text-center">
-            Destinasi
-          </h2>
-
-          <input
-            class="
-              shadow
-              appearance-none
-              rounded
-              w-full
-              py-2
-              px-3
-              text-gray-700
-              mb-3
-              leading-tight
-              focus:outline-none focus:shadow-outline
-            "
-            type="text"
-            placeholder="Cari destinasi"
-            v-model="cariLokasiWisata"
-          />
-
-          <div class="overflow-auto h-64">
-            <div
-              v-if="filteredWisata.length > 0"
-              class="
-                container
-                mx-auto
-                max-w-sm
-                flex flex-col
-                justify-center
-                items-center
-              "
-            >
-              <div
-                v-for="(wisata, index) in filteredWisata"
-                :key="index"
-                @click="greet(wisata)"
-                class="
-                  bg-white
-                  w-full
-                  flex
-                  items-center
-                  p-2
-                  my-2
-                  rounded-xl
-                  shadow
-                  border
-                  cursor-pointer
-                "
-              >
-                <div class="flex items-center space-x-4">
-                  <img
-                    :src="wisata.image"
-                    :alt="wisata.nama"
-                    class="w-16 h-16 rounded-lg object-cover"
-                  />
-                </div>
-                <div class="flex-grow p-3">
-                  <div class="font-semibold text-gray-700">
-                    {{ wisata.nama }}
-                  </div>
-                  <div class="text-sm text-gray-500">Cisoka</div>
-                </div>
+          <div
+            class="text-gray-900 text-xl font-medium cursor-pointer"
+            @click="tampilDestinasi = !tampilDestinasi"
+          >
+            <div class="flex justify-between items-center">
+              <div>Destinasi</div>
+              <div>
+                <template v-if="tampilDestinasi">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 15l7-7 7 7"
+                    />
+                  </svg>
+                </template>
+                <template v-else>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </template>
               </div>
             </div>
-            <div v-else class="my-2 text-center">Tidak ada data.</div>
+          </div>
+
+          <div v-if="tampilDestinasi">
+            <input
+              class="
+                shadow
+                appearance-none
+                rounded
+                w-full
+                py-2
+                px-3
+                text-gray-700
+                leading-tight
+                focus:outline-none focus:shadow-outline
+                mt-8
+                mb-4
+              "
+              type="text"
+              placeholder="Cari destinasi"
+              v-model="cariLokasiWisata"
+            />
+
+            <div class="overflow-auto h-64">
+              <div
+                v-if="filteredWisata.length > 0"
+                class="
+                  container
+                  mx-auto
+                  max-w-sm
+                  flex flex-col
+                  justify-center
+                  items-center
+                "
+              >
+                <div
+                  v-for="(wisata, index) in filteredWisata"
+                  :key="index"
+                  @click="greet(wisata)"
+                  class="
+                    bg-white
+                    w-full
+                    flex
+                    items-center
+                    p-2
+                    my-2
+                    rounded-xl
+                    shadow
+                    border
+                    cursor-pointer
+                  "
+                >
+                  <div class="flex items-center space-x-4">
+                    <img
+                      :src="wisata.image"
+                      :alt="wisata.nama"
+                      class="w-16 h-16 rounded-lg object-cover"
+                    />
+                  </div>
+                  <div class="flex-grow p-3">
+                    <div class="font-semibold text-gray-700">
+                      {{ wisata.nama }}
+                    </div>
+                    <div class="text-sm text-gray-500">Cisoka</div>
+                  </div>
+                </div>
+              </div>
+              <div v-else class="my-2 text-center">Tidak ada data.</div>
+            </div>
           </div>
         </div>
       </div>
@@ -131,6 +172,7 @@ import tangerangKotaJson from "@/assets/tangerangkotapoly.json";
 export default {
   data() {
     return {
+      tampilDestinasi: true,
       map: {
         center: [-6.155821, 106.669354],
         zoom: 12,
