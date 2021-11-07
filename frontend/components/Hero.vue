@@ -52,7 +52,7 @@
           </a>
         </div>
 
-        <div class="col-span-7">
+        <div class="hidden lg:block col-span-7">
           <img src="~assets/img/hero_map.svg" />
         </div>
       </div>
