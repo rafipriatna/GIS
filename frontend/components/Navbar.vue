@@ -16,7 +16,9 @@
               text-gray-600
               hover:font-bold
               focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white
-              transition-all ease-out duration-700
+              transition-all
+              ease-out
+              duration-700
             "
             aria-controls="mobile-menu"
             aria-expanded="false"
@@ -80,8 +82,8 @@
           "
         >
           <div class="flex space-x-10">
-            <a
-              href="#"
+            <nuxt-link
+              to="/"
               class="
                 text-gray-600
                 px-3
@@ -91,11 +93,10 @@
                 hover:font-bold hover:text-gray-900
               "
               aria-current="page"
-              >Beranda</a
-            >
+              >Beranda</nuxt-link>
 
-            <a
-              href="#"
+            <nuxt-link
+              to="/tentang"
               class="
                 text-gray-600
                 hover:font-bold hover:text-gray-900
@@ -104,11 +105,10 @@
                 rounded-md
                 font-medium
               "
-              >Tentang</a
-            >
+              >Tentang</nuxt-link>
 
-            <a
-              href="#"
+            <nuxt-link
+              to="/destinasi"
               class="
                 text-gray-600
                 hover:font-bold hover:text-gray-900
@@ -117,8 +117,7 @@
                 rounded-md
                 font-medium
               "
-              >Destinasi</a
-            >
+              >Destinasi</nuxt-link>
           </div>
         </div>
       </div>
@@ -178,18 +177,16 @@
 </template>
 
 <script>
-
-export default({
+export default {
   data() {
     return {
-      mobileMenuClicked: false
-    }
+      mobileMenuClicked: false,
+    };
   },
   methods: {
-    mobileMenuClick(){
-      this.mobileMenuClicked = !this.mobileMenuClicked
-    }
-  }
-})
+    mobileMenuClick() {
+      this.mobileMenuClicked = !this.mobileMenuClicked;
+    },
+  },
+};
 </script>
-
