@@ -32,8 +32,8 @@
             </div>
           </div>
 
-          <a
-            href=""
+          <nuxt-link
+            to="/#destinasi-wisata"
             class="
               bg-indigo-500
               text-white
@@ -49,7 +49,7 @@
             "
           >
             Cari Destinasi
-          </a>
+          </nuxt-link>
         </div>
 
         <div class="hidden lg:block col-span-7">

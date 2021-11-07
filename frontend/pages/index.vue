@@ -12,5 +12,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  mounted() {
+    var section = this.$router.currentRoute.hash.replace("#", "");
+    if (section)
+      this.$nextTick(() =>
+        window.document.getElementById(section).scrollIntoView()
+      );
+  },
+};
 </script>

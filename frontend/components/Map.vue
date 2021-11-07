@@ -1,5 +1,5 @@
 <template>
-  <div class="font-poppins">
+  <div class="font-poppins" id="destinasi-wisata">
     <h1 class="text-4xl font-bold text-center my-20">Destinasi Wisata</h1>
     <section class="text-gray-600 body-font relative h-screen rounded-md">
       <div class="absolute inset-0 bg-gray-300">
