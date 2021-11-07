@@ -1,10 +1,5 @@
 <template>
   <div class="font-poppins">
-    <h1 class="text-4xl text-center font-bold my-5">Destinasi Wisata Populer</h1>
-    <p class="text-gray-400 text-center text-lg mb-10">
-      Mulai dari wisata keluarga hingga <br/> taman bermain.
-    </p>
-
     <div class="flex items-center justify-center lg:p-10">
       <div
         class="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-10 w-full"
