@@ -6,6 +6,7 @@
           <!-- Mobile menu button-->
           <button
             type="button"
+            @click="mobileMenuClick"
             class="
               inline-flex
               items-center
@@ -15,6 +16,7 @@
               text-gray-600
               hover:font-bold
               focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white
+              transition-all ease-out duration-700
             "
             aria-controls="mobile-menu"
             aria-expanded="false"
@@ -123,7 +125,7 @@
     </div>
 
     <!-- Mobile menu, show/hide based on menu state. -->
-    <div class="sm:hidden" id="mobile-menu">
+    <div class="sm:hidden" v-if="mobileMenuClicked">
       <div class="px-2 pt-2 pb-3 space-y-1">
         <a
           href="#"
@@ -174,3 +176,20 @@
     </div>
   </nav>
 </template>
+
+<script>
+
+export default({
+  data() {
+    return {
+      mobileMenuClicked: false
+    }
+  },
+  methods: {
+    mobileMenuClick(){
+      this.mobileMenuClicked = !this.mobileMenuClicked
+    }
+  }
+})
+</script>
+
