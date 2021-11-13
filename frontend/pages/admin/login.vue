@@ -13,7 +13,8 @@
     <div class="bg-white w-96 shadow-xl rounded p-5">
       <h1 class="text-3xl font-medium">TanGeo Admin</h1>
       <p class="text-sm">Silakan masuk 😘</p>
-      <div class="space-y-5 mt-5">
+      <ErrorAlert v-if="error" :pesan="error" />
+      <form @submit="login" method="post" class="space-y-5 mt-5">
         <input
           type="text"
           class="w-full h-12 border border-gray-800 rounded px-3 outline-none"
@@ -65,7 +66,7 @@
         >
           Masuk
         </button>
-      </div>
+      </form>
     </div>
 
     <!-- Footer -->
@@ -89,6 +90,7 @@ export default {
       tampilkansandi: "tampilkan",
       email: null,
       password: null,
+      error: null,
     };
   },
   methods: {
@@ -105,17 +107,35 @@ export default {
         ? (this.tampilkansandi = "sembunyikan")
         : (this.tampilkansandi = "tampilkan");
     },
-    async login() {
-      const cobaLogin = await this.$auth.loginWith("local", {
-        data: {
-          email: this.email,
-          password: this.password,
-        },
-      });
-
-      if (cobaLogin) {
-        this.$router.push("/admin");
+    async login(e) {
+      e.preventDefault();
+      if (this.formValidation()) {
+        await this.$auth
+          .loginWith("local", {
+            data: {
+              email: this.email,
+              password: this.password,
+            },
+          })
+          .then(() => {
+            this.$router.push("/admin");
+          })
+          .catch((e) => {
+            this.error = e.response.data.message;
+          });
+      } else {
+        this.error = "Harap isi semua form yang disediakan.";
       }
+    },
+    formValidation() {
+      if (
+        this.email == null ||
+        this.email == "" ||
+        this.password == null ||
+        this.password == ""
+      )
+        return false;
+      return true;
     },
   },
 };
