@@ -31,8 +31,42 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/svg'
+    '@nuxtjs/svg',
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
+
+  // Axios
+  axios: {
+    baseURL: 'http://localhost:7000/api',
+  },
+
+  // Auth module configuration
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'token',
+          required: true,
+          type: 'Bearer'
+        },
+        user: {
+          property: 'user',
+        },
+        endpoints: {
+          login: { url: 'auth/login', method: 'post' },
+          user: { url: 'auth', method: 'get' },
+          logout: false,
+        },
+      },
+    },
+    redirect: {
+      login: '/admin/login',
+      logout: '/',
+      home: '/admin',
+    },
+  },
+
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
