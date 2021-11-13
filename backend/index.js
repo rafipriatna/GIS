@@ -6,7 +6,7 @@ const cors = require('cors');
 
 const app = express();
 // Memberi batas untuk mengakses API
-const allowList_API = ['http://localhost:7070']
+const allowList_API = ['http://localhost:3000']
 const cors_option = {
     Credential: true,
     origin: (origin, callback) => {
