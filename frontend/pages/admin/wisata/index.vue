@@ -1,9 +1,11 @@
 <template>
   <AdminContent title="Destinasi Wisata">
     <AdminMap />
-    <button
+    <nuxtLink
+      to="/admin/wisata/tambah"
       class="
         bg-blue-500
+        w-40
         px-2
         text-white
         font-semibold
@@ -18,7 +20,7 @@
       "
     >
       <i class="fas fa-plus mr-3"></i> Tambah Data
-    </button>
+    </nuxtLink>
     <div
       class="flex items-center justify-center overflow-hidden overflow-x-auto"
     >
