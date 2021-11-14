@@ -83,6 +83,7 @@ export default {
   head: {
     title: "Admin Login",
   },
+  layout: "empty",
   middleware: "guest",
   data() {
     return {
