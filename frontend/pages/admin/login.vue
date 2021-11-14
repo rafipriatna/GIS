@@ -122,7 +122,11 @@ export default {
             this.$router.push("/admin");
           })
           .catch((e) => {
-            this.error = e.response.data.message;
+            if (!e.response) {
+              this.error = "Oops! Nggak bisa akses backend.";
+            } else {
+              this.error = e.response.data.message;
+            }
           });
       } else {
         this.error = "Harap isi semua form yang disediakan.";
