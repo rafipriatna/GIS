@@ -42,7 +42,7 @@ const wisataShema = new Shema({
         required: true
     },
     galleries: [{
-        foto: {
+        photo: {
             type: String,
             required: true
         }
