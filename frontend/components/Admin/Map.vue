@@ -38,6 +38,9 @@
 import tangerangKotaJson from "@/assets/tangerangkotapoly.json";
 
 export default {
+  props: [
+    'lokasiWisata'
+  ],
   data() {
     return {
       map: {
@@ -48,28 +51,6 @@ export default {
           'Map oleh &copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a>. Terima kasih kepada <a target="_blank" href="https://leafletjs.com/">Leaflet</a> untuk library map Javascript yang keren ini.',
         geoJSON: tangerangKotaJson,
       },
-      lokasiWisata: [
-        {
-          nama: "Telaga Cisoka",
-          lokasi: {
-            lat: "-6.2779955",
-            long: "106.4284082",
-          },
-          keterangan: "Lokasi Telaga Cisoka mantap cuk.",
-          image:
-            "http://blog.pergi.com/wp-content/uploads/2018/08/30076248_439823839793054_924115978135011328_n.jpg",
-        },
-        {
-          nama: "Tebing Koja",
-          lokasi: {
-            lat: "-6.3145481",
-            long: "106.3957942",
-          },
-          keterangan: "Tempat ini cocok untuk melompat.",
-          image:
-            "https://tangselmedia.com/wp-content/uploads/2020/02/Liburan-Murah-Berwisata-ke-Tebing-Koja-Tangerang-Selatan-asle.jpg",
-        },
-      ],
       marker: {
         keterangan: "Keterangan ketika destinasi diklik.",
       },
