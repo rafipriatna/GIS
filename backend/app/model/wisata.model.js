@@ -19,7 +19,7 @@ const wisataShema = new Shema({
         type: String,
         required: true
     },
-    location: [{
+    location: {
         latitude: {
             type: String,
             required: true
@@ -36,7 +36,7 @@ const wisataShema = new Shema({
             type: String,
             required: true
         }
-    }],
+    },
     description: {
         type: String,
         required: true
