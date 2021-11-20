@@ -11,20 +11,20 @@ router.get('/', passport.authenticate('adminAuth', {
     session: false
 }), controller.listWisata)
 
-router.get('/', passport.authenticate('adminAuth', {
-    session: false
-}), controller.ubaWisata)
+// router.get('/', passport.authenticate('adminAuth', {
+//     session: false
+// }), controller.ubaWisata)
 
-router.get('/', passport.authenticate('adminAuth', {
-    session: false
-}), controller.hapusFoto)
+// router.get('/', passport.authenticate('adminAuth', {
+//     session: false
+// }), controller.hapusFoto)
 
-router.get('/', passport.authenticate('adminAuth', {
+router.post('/upload/:id', passport.authenticate('adminAuth', {
     session: false
 }), controller.tambahFoto)
 
-router.get('/', passport.authenticate('adminAuth', {
-    session: false
-}), controller.hapusWisata)
+// router.get('/', passport.authenticate('adminAuth', {
+//     session: false
+// }), controller.hapusWisata)
 
 module.exports = router

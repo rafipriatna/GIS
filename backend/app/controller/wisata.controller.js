@@ -16,7 +16,7 @@ const uploadImg = multer({
     dest: lokasiGambar,
     limits: { fieldSize: 1024 * 1024 * 3 },
     fileFilter: filter
-}).single('photo')
+}).single('file')
 
 // const uploadImg1 = multer({
 //     dest: lokasiGambar,
@@ -81,60 +81,81 @@ exports.ubaWisata = (req, res) => {
 exports.tambahFoto = (req, res) => {
     uploadImg(req, res, (error) => {
         if (error) {
-            res.status(500).json({
-                message: 'file upload error, Format file harus JPG atau PNG'
-            })
+            return res.status(500).json(error)
         } else {
-            model.findById(req.params.id, function (error, data) {
+            modelWisata.findById(req.params.id, function (error, data) {
                 if (error) {
                     return res.status(500).json(error);
                 }
                 let foto_galeri = [];
-                //looping dengan map
-                data.foto_galeri.map((file) => foto_galeri.push(file));
-                foto_galeri.push({ file: req.file.filename });
-                model.updateOne({ _id: req.params.id }, { foto_galeri: foto_galeri },
+                data.galleries.map((file) => foto_galeri.push(file));
+                foto_galeri.push({ photo: req.file.filename });
+                modelWisata.updateOne({ _id: req.params.id }, { galleries: foto_galeri },
                     function (error) {
                         if (error) {
                             return res.status(500).json(error)
-                        } else {
-                            return res.status(200).json({
-                                message: 'Berhasil menambahkan foto!',
-                                data: data
-                            })
                         }
                     }
                 )
             })
         }
     })
+    // uploadImg(req, res, (error) => {
+    //     if (error) {
+    //         res.status(500).json({
+    //             message: 'file upload error, Format file harus JPG atau PNG'
+    //         })
+    //     } else {
+    //         modelWisata.findById(req.params.id, function (error, data) {
+    //             if (error) {
+    //                 return res.status(500).json(error);
+    //             }
+    //             let foto_galeri = [];
+    //             //looping dengan map
+    //             console.log(req.file)
+    //             data.galleries.map((file) => foto_galeri.push(file));
+    //             foto_galeri.push({ file: req.file.filename });
+    //             modelWisata.updateOne({ _id: req.params.id }, { galleries: foto_galeri },
+    //                 function (error) {
+    //                     if (error) {
+    //                         return res.status(500).json(error)
+    //                     } else {
+    //                         return res.status(200).json({
+    //                             message: 'Berhasil menambahkan foto!',
+    //                             data: data
+    //                         })
+    //                     }
+    //                 }
+    //             )
+    //         })
+    //     }
+    // })
 }
 
 //hapus foto
 exports.hapusFoto = (req, res) => {
-    modelGambar
-        .model.findById(req.params.id, function (error, data) {
-            if (error) {
-                return res.status(500).json(error)
-            }
-            if (fs.existsSync(path + req.body.file)) {
-                fs.unlinkSync(path + req.body.file)
-            }
-            foto_galeri = [];
-            data.foto_galeri
-                .filter((file) => file.file != req.body.file)
-                .map((file) => foto_galeri.push(file))
-            model.updateOne({ _id: req.params.id }, { foto_galeri: foto_galeri },
-                function (error) {
-                    if (error) {
-                        return res.status(500).json(error)
-                        res.status(200).json({
-                            message: 'Berhasil menghapus foto!'
-                        })
-                    }
+    modelWisata.findById(req.params.id, function (error, data) {
+        if (error) {
+            return res.status(500).json(error)
+        }
+        if (fs.existsSync(path + req.body.file)) {
+            fs.unlinkSync(path + req.body.file)
+        }
+        foto_galeri = [];
+        data.foto_galeri
+            .filter((file) => file.file != req.body.file)
+            .map((file) => foto_galeri.push(file))
+        modelWisata.updateOne({ _id: req.params.id }, { foto_galeri: foto_galeri },
+            function (error) {
+                if (error) {
+                    return res.status(500).json(error)
+                    res.status(200).json({
+                        message: 'Berhasil menghapus foto!'
+                    })
                 }
-            )
-        })
+            }
+        )
+    })
 }
 
 //
