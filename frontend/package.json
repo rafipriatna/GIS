@@ -16,7 +16,11 @@
     "@nuxtjs/svg": "^0.3.0",
     "core-js": "^3.19.1",
     "nuxt": "^2.15.8",
-    "nuxt-leaflet": "^0.0.25"
+    "nuxt-leaflet": "^0.0.25",
+    "nuxt-sweetalert2": "^1.0.0",
+    "sweetalert2": "^11.1.10",
+    "vue-sweetalert2": "^5.0.2",
+    "vue-tags": "^1.0.4"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^4.2.1",

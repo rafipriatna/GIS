@@ -79,7 +79,7 @@ export default {
     greet: function (wisata) {
       const location = [wisata.lokasi.lat, wisata.lokasi.long];
 
-      this.map.center = location;
+      // this.map.center = location;
       this.marker.latLng = location;
       this.marker.keterangan = wisata.keterangan;
       this.$refs.marker.mapObject.openPopup(location);
