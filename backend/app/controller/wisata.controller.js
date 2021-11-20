@@ -4,7 +4,6 @@ const lokasiGambar = 'public/images/';
 const multer = require('multer');
 const fs = require('fs');
 
-
 const filter = (req, file, callback) => {
     if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
         callback(null, true)
@@ -17,43 +16,45 @@ const uploadImg = multer({
     dest: lokasiGambar,
     limits: { fieldSize: 1024 * 1024 * 3 },
     fileFilter: filter
-}).array('photo')
-
-const uploadImg1 = multer({
-    dest: lokasiGambar,
-    limits: { fieldSize: 1024 * 1024 * 3 },
-    fileFilter: filter
 }).single('photo')
 
+// const uploadImg1 = multer({
+//     dest: lokasiGambar,
+//     limits: { fieldSize: 1024 * 1024 * 3 },
+//     fileFilter: filter
+// }).single('photo')
+
 exports.inputWisata = (req, res) => {
-    //upload gambar
+    uploadImg(req, res, (error) => {
+        if (error) {
+            return res.status(500).json(error)
+        } else {
+            const slug = slugGenerator(req.body.name)
 
-    if (error) {
-        // jika error jalankan pesan error
-        return res.status(500).json(error)
-    } else {
-        // deklarasi variabel
-        const data = {
-            name: req.body.name,
-            travel_category: req.body.kategory,
-            slug: req.body.slug,
-            location: req.body.location,
-            description: req.body.description,
-            facilities: req.body.facilities,
-            thumbnail: req.body.thumbnail
-        }
+            const data = {
+                name: req.body.name,
+                travel_category: req.body.travel_category,
+                slug: slug,
+                location: JSON.parse(req.body.location),
+                description: req.body.description,
+                facilities: req.body.facilities,
+                thumbnail: req.file.filename
+            }
 
-        // masukkan file
-        const saveDb = new modelArtikel(data)
-        saveDb.save()
-            .then(saveDb => {
-                return res.status(200).json({
-                    message: 'Tempat wisata berhasil di tambahakan!'
+            // Simpan data
+            const saveDb = new modelWisata(data)
+            saveDb.save()
+                .then(dataDB => {
+                    return res.status(200).json({
+                        message: 'Tempat wisata berhasil ditambahakan!',
+                        data: dataDB
+                    })
+                }).catch((error) => {
+                    console.log(error)
+                    res.status(500).json(error)
                 })
-            }).catch((error) => {
-                res.status(500).json(error)
-            })
-    }
+        }
+    })
 }
 
 //ubah tempat wisata
@@ -62,17 +63,16 @@ exports.ubaWisata = (req, res) => {
     model.findByIdAndUpdate(
         req.params.id,
         req.body, {
-            upsert: true,
-            new: true
-        },
-        function(error, data) {
-            if (error) {
+        upsert: true,
+        new: true
+    },
+        function (error, data) {
+            if (error)
                 return res.status(500).json(error)
-                res.status(200).json({
-                    message: 'Berhasil diubah!',
-                    data: data
-                })
-            }
+            res.status(200).json({
+                message: 'Berhasil diubah!',
+                data: data
+            })
         }
     )
 }
@@ -85,7 +85,7 @@ exports.tambahFoto = (req, res) => {
                 message: 'file upload error, Format file harus JPG atau PNG'
             })
         } else {
-            model.findById(req.params.id, function(error, data) {
+            model.findById(req.params.id, function (error, data) {
                 if (error) {
                     return res.status(500).json(error);
                 }
@@ -94,7 +94,7 @@ exports.tambahFoto = (req, res) => {
                 data.foto_galeri.map((file) => foto_galeri.push(file));
                 foto_galeri.push({ file: req.file.filename });
                 model.updateOne({ _id: req.params.id }, { foto_galeri: foto_galeri },
-                    function(error) {
+                    function (error) {
                         if (error) {
                             return res.status(500).json(error)
                         } else {
@@ -113,7 +113,7 @@ exports.tambahFoto = (req, res) => {
 //hapus foto
 exports.hapusFoto = (req, res) => {
     modelGambar
-        .model.findById(req.params.id, function(error, data) {
+        .model.findById(req.params.id, function (error, data) {
             if (error) {
                 return res.status(500).json(error)
             }
@@ -125,7 +125,7 @@ exports.hapusFoto = (req, res) => {
                 .filter((file) => file.file != req.body.file)
                 .map((file) => foto_galeri.push(file))
             model.updateOne({ _id: req.params.id }, { foto_galeri: foto_galeri },
-                function(error) {
+                function (error) {
                     if (error) {
                         return res.status(500).json(error)
                         res.status(200).json({
@@ -140,7 +140,7 @@ exports.hapusFoto = (req, res) => {
 //
 exports.hapusWisata = (req, res) => {
     modelArtikel
-        .findByIdAndDelete(req.params.id, function(error, artikel) {
+        .findByIdAndDelete(req.params.id, function (error, artikel) {
             if (error) {
                 return res.status(500).json(error)
             } else {
@@ -168,3 +168,23 @@ exports.listWisata = (req, res) => {
             req.status(500).json(error)
         })
 }
+
+
+const slugGenerator = title => {
+    let slug;
+
+    slug = title.toLowerCase();
+
+    slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\'|\"|\:|\;|_/gi, '');
+
+    slug = slug.replace(/ /gi, "-");
+
+    slug = slug.replace(/\-\-\-\-\-/gi, '-');
+    slug = slug.replace(/\-\-\-\-/gi, '-');
+    slug = slug.replace(/\-\-\-/gi, '-');
+    slug = slug.replace(/\-\-/gi, '-');
+
+    slug = '@' + slug + '@';
+    slug = slug.replace(/\@\-|\-\@|\@/gi, '');
+    return slug;
+};

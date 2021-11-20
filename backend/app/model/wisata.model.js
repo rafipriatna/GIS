@@ -47,12 +47,7 @@ const wisataShema = new Shema({
             required: true
         }
     }],
-    facilities: [{
-        name: {
-            type: String,
-            required: true
-        }
-    }],
+    facilities: [{ type: String, required: true }],
     thumbnail: {
         type: String,
         required: true
