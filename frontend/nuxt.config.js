@@ -26,6 +26,8 @@ export default {
       src: "~plugins/vue-tags.js",
       ssr: false
     },
+    "~plugins/vue-modal.js",
+    "~plugins/vue-file-agent.js",
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -67,7 +67,9 @@
                           transform
                           hover:scale-125
                         "
-                        :src="'http://localhost:7000/images/' + wisata.thumbnail"
+                        :src="
+                          'http://localhost:7000/images/' + wisata.thumbnail
+                        "
                       />
                     </div>
                     <span class="font-medium">{{ wisata.name }}</span>
@@ -96,6 +98,7 @@
                         cursor-pointer
                       "
                       title="Tambah foto galeri"
+                      @click="openGallery(wisata._id)"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -238,6 +241,98 @@
         </div>
       </div>
     </div>
+
+    <modal
+      name="gallery"
+      :min-width="200"
+      :min-height="200"
+      :scrollable="true"
+      :reset="true"
+      width="60%"
+      height="auto"
+    >
+      <div class="mx-4 my-4">
+        <h1 class="text-lg">Galeri</h1>
+        <VueFileAgent
+          ref="vueFileAgent"
+          :multiple="true"
+          :deletable="true"
+          :meta="false"
+          :accept="'image/*'"
+          :errorText="{
+            type: 'Ndak bisa, cuma boleh upload gambar.',
+            size: 'Files should not exceed 10MB in size',
+          }"
+          @select="filesSelected($event)"
+          @beforedelete="onBeforeDelete($event)"
+          @delete="fileDeleted($event)"
+          v-model="fileRecords"
+        >
+          <template v-slot:file-preview-new>
+            <div
+              key="new"
+              class="
+                file-preview-wrapper
+                grid-box-item grid-block
+                file-preview-new
+                object-none object-center
+                text-blue-200
+                bg-blue-600
+                rounded
+              "
+            >
+              <span class="file-preview"
+                ><span
+                  style="
+                    position: absolute;
+                    top: 0px;
+                    right: 0px;
+                    bottom: 0px;
+                    left: 0px;
+                  "
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    class="h-20 w-20 mx-auto mt-20 bg-transparent"
+                    style="fill: transparent"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                    />
+                  </svg>
+
+                  <span>Klik atau jatuhkan foto ke sini.</span>
+                </span></span
+              >
+            </div>
+          </template>
+        </VueFileAgent>
+        <button
+          class="
+            my-4
+            px-2
+            py-2
+            text-blue-200
+            bg-blue-600
+            hover:bg-blue-700
+            focus:outline-none
+            focus:ring-2
+            focus:ring-blue-600
+            focus:ring-opacity-50
+          "
+          :disabled="!fileRecordsForUpload.length"
+          @click="uploadFiles()"
+        >
+          Upload {{ fileRecordsForUpload.length }} files
+        </button>
+      </div>
+    </modal>
   </AdminContent>
 </template>
 
@@ -252,10 +347,21 @@ export default {
     return {
       wisata: [],
       markerWisata: [],
+      fileRecords: [],
+      uploadUrl: "https://www.mocky.io/v2/5d4fb20b3000005c111099e3",
+      uploadHeaders: { "X-Test-Header": "vue-file-agent" },
+      fileRecordsForUpload: [],
+      idWisata: null,
     };
   },
   methods: {
     getData() {
+      this.fileRecords.push({
+        url: "http://localhost:7000/images/61cd3d1f277ee38a0e60bbee6f68f85d",
+        name: "House Sparrow.jpg",
+        type: "image/jpeg",
+        ext: "jpg",
+      });
       this.$store.dispatch("getDataWisata").then((res) => {
         this.wisata = res;
 
@@ -266,14 +372,36 @@ export default {
               lat: wisata.location.latitude,
               long: wisata.location.longitude,
             },
-            keterangan: wisata.description,
-            image: wisata.thumbnail,
+            description: wisata.description,
+            thumbnail: wisata.thumbnail,
+            category: wisata.travel_category,
           });
         });
       });
     },
+    filesSelected: function (fileRecordsNewlySelected) {
+      var validFileRecords = fileRecordsNewlySelected.filter(
+        (fileRecord) => !fileRecord.error
+      );
+      this.fileRecordsForUpload =
+        this.fileRecordsForUpload.concat(validFileRecords);
+    },
+    uploadFiles() {
+      const token = localStorage.getItem("auth._token.local");
+      this.$refs.vueFileAgent.upload(
+        `http://localhost:7000/api/admin/wisata/upload/${this.idWisata}`,
+        { Authorization: token },
+        this.fileRecordsForUpload
+      );
+      this.fileRecordsForUpload = [];
+    },
+    openGallery(id) {
+      this.idWisata = id;
+      this.$modal.show("gallery");
+    },
   },
   mounted() {
+    console.log(document.cookie);
     this.getData();
   },
 };

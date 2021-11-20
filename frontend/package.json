@@ -19,6 +19,8 @@
     "nuxt-leaflet": "^0.0.25",
     "nuxt-sweetalert2": "^1.0.0",
     "sweetalert2": "^11.1.10",
+    "vue-file-agent": "^1.7.3",
+    "vue-js-modal": "^2.0.1",
     "vue-sweetalert2": "^5.0.2",
     "vue-tags": "^1.0.4"
   },

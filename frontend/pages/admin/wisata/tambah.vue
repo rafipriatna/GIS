@@ -291,7 +291,7 @@ export default {
         data.set("travel_category", this.travel_category);
         data.append("location", JSON.stringify(this.location));
         data.set("description", this.description);
-        data.append("photo", this.thumbnail, this.thumbnail.name);
+        data.append("file", this.thumbnail, this.thumbnail.name);
 
         this.$store.dispatch("tambahDataWisata", data).then((res) => {
           this.$swal("Mantappu");

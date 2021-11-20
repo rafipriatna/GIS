@@ -24,9 +24,34 @@
             ></l-icon>
           </l-marker>
           <l-layer-group ref="marker">
-            <l-popup :options="{ offset: [1, -20] }">{{
-              marker.keterangan
-            }}</l-popup>
+            <l-popup :options="{ offset: [1, -20] }" class="w-48">
+              <div class="flex justify-center items-center">
+                <div class="overflow-hidden">
+                  <img :src="marker.thumbnail" class="object-cover rounded" />
+                  <h1 class="mt-4 font-bold text-lg">{{ marker.nama }}</h1>
+                  <h3 class="text-gray-400 text-md">{{ marker.kategori }}</h3>
+                  <p class="text-gray-400 text-md">{{ marker.keterangan }}</p>
+
+                  <button
+                    class="
+                      bg-transparent
+                      hover:bg-blue-500
+                      text-blue-700
+                      font-semibold
+                      hover:text-white
+                      py-2
+                      px-4
+                      border border-blue-500
+                      hover:border-transparent
+                      rounded
+                      w-full
+                    "
+                  >
+                    Selengkapnya
+                  </button>
+                </div>
+              </div>
+            </l-popup>
           </l-layer-group>
         </l-map>
       </no-ssr>
@@ -38,9 +63,7 @@
 import tangerangKotaJson from "@/assets/tangerangkotapoly.json";
 
 export default {
-  props: [
-    'lokasiWisata'
-  ],
+  props: ["lokasiWisata"],
   data() {
     return {
       map: {
@@ -52,7 +75,10 @@ export default {
         geoJSON: tangerangKotaJson,
       },
       marker: {
+        nama: "Judul",
+        thumbnail: null,
         keterangan: "Keterangan ketika destinasi diklik.",
+        kategori: null,
       },
     };
   },
@@ -62,9 +88,15 @@ export default {
 
       // this.map.center = location;
       this.marker.latLng = location;
-      this.marker.keterangan = wisata.keterangan;
+      this.marker.nama = wisata.nama;
+      this.marker.thumbnail = `http://localhost:7000/images/${wisata.thumbnail}`;
+      this.marker.keterangan = wisata.description;
+      this.marker.kategori = wisata.category;
       this.$refs.marker.mapObject.openPopup(location);
     },
+  },
+  mounted() {
+    console.log(this.lokasiWisata);
   },
 };
 </script>
