@@ -1,6 +1,6 @@
 <template>
   <AdminContent title="Destinasi Wisata">
-    <AdminMap :lokasiWisata="markerWisata" />
+    <AdminMap :lokasiWisata="wisata" />
     <nuxtLink
       to="/admin/wisata/tambah"
       class="
@@ -98,7 +98,7 @@
                         cursor-pointer
                       "
                       title="Tambah foto galeri"
-                      @click="openGallery(wisata._id)"
+                      @click="openGallery(index)"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -346,35 +346,40 @@ export default {
   data() {
     return {
       wisata: [],
-      markerWisata: [],
       fileRecords: [],
-      uploadUrl: "https://www.mocky.io/v2/5d4fb20b3000005c111099e3",
-      uploadHeaders: { "X-Test-Header": "vue-file-agent" },
       fileRecordsForUpload: [],
       idWisata: null,
     };
   },
   methods: {
     getData() {
-      this.fileRecords.push({
-        url: "http://localhost:7000/images/61cd3d1f277ee38a0e60bbee6f68f85d",
-        name: "House Sparrow.jpg",
-        type: "image/jpeg",
-        ext: "jpg",
-      });
       this.$store.dispatch("getDataWisata").then((res) => {
-        this.wisata = res;
-
-        res.map((wisata) => {
-          this.markerWisata.push({
-            nama: wisata.name,
-            lokasi: {
-              lat: wisata.location.latitude,
-              long: wisata.location.longitude,
+        res.map((item) => {
+          let gallery = [];
+          // Looping foto ke gallery
+          item.galleries.map((file) => {
+            gallery.push({
+              file: file.photo,
+              url: `${this.$config.serverURL}/images/${file.photo}`,
+              name: file.photo,
+              type: "image/jpeg",
+              ext: "jpg",
+            });
+          });
+          this.wisata.push({
+            _id: item._id,
+            name: item.name,
+            location: {
+              latitude: item.location.latitude,
+              longitude: item.location.longitude,
+              district: item.location.district,
+              address: item.location.address,
             },
-            description: wisata.description,
-            thumbnail: wisata.thumbnail,
-            category: wisata.travel_category,
+            description: item.description,
+            facilities: item.facilities,
+            thumbnail: item.thumbnail,
+            category: item.travel_category,
+            galleries: gallery,
           });
         });
       });
@@ -389,19 +394,49 @@ export default {
     uploadFiles() {
       const token = localStorage.getItem("auth._token.local");
       this.$refs.vueFileAgent.upload(
-        `http://localhost:7000/api/admin/wisata/upload/${this.idWisata}`,
+        `${this.$config.serverURL}api/admin/wisata/upload/${
+          this.wisata[this.idWisata]._id
+        }`,
         { Authorization: token },
         this.fileRecordsForUpload
       );
       this.fileRecordsForUpload = [];
+      this.wisata = [];
+      this.getData();
+    },
+    onBeforeDelete: function (fileRecord) {
+      var i = this.fileRecordsForUpload.indexOf(fileRecord);
+      if (i !== -1) {
+        this.fileRecordsForUpload.splice(i, 1);
+        var k = this.fileRecords.indexOf(fileRecord);
+        if (k !== -1) this.fileRecords.splice(k, 1);
+      } else {
+        if (confirm("Yakin mau hapus foto ini??")) {
+          this.$refs.vueFileAgent.deleteFileRecord(fileRecord);
+        }
+      }
+    },
+    fileDeleted: function (fileRecord) {
+      var i = this.fileRecordsForUpload.indexOf(fileRecord);
+      if (i !== -1) {
+        this.fileRecordsForUpload.splice(i, 1);
+      } else {
+        this.deleteUploadedFile(fileRecord);
+      }
+    },
+    deleteUploadedFile: function (fileRecord) {
+      this.$axios.post(
+        `/admin/wisata/delete/${this.wisata[this.idWisata]._id}`,
+        fileRecord
+      );
     },
     openGallery(id) {
       this.idWisata = id;
+      this.fileRecords = this.wisata[id].galleries;
       this.$modal.show("gallery");
     },
   },
   mounted() {
-    console.log(document.cookie);
     this.getData();
   },
 };

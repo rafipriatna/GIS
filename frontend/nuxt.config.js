@@ -47,6 +47,11 @@ export default {
     baseURL: 'http://localhost:7000/api',
   },
 
+  // Public
+  publicRuntimeConfig: {
+    serverURL: "http://localhost:7000/",
+  },
+
   // Auth module configuration
   auth: {
     strategies: {

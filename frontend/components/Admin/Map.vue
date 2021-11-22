@@ -17,7 +17,7 @@
             v-for="(wisata, index) in lokasiWisata"
             :key="index"
             @click="greet(wisata)"
-            :lat-lng="[wisata.lokasi.lat, wisata.lokasi.long]"
+            :lat-lng="[wisata.location.latitude, wisata.location.longitude]"
           >
             <l-icon
               icon-url="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png"
@@ -75,28 +75,28 @@ export default {
         geoJSON: tangerangKotaJson,
       },
       marker: {
-        nama: "Judul",
+        name: "Judul",
         thumbnail: null,
-        keterangan: "Keterangan ketika destinasi diklik.",
-        kategori: null,
+        description: "Keterangan ketika destinasi diklik.",
+        category: null,
       },
     };
   },
   methods: {
     greet: function (wisata) {
-      const location = [wisata.lokasi.lat, wisata.lokasi.long];
+      const location = [wisata.location.latitude, wisata.location.longitude];
 
       // this.map.center = location;
-      this.marker.latLng = location;
-      this.marker.nama = wisata.nama;
+      // this.marker.latLng = location;
+      this.marker.nama = wisata.name;
       this.marker.thumbnail = `http://localhost:7000/images/${wisata.thumbnail}`;
       this.marker.keterangan = wisata.description;
       this.marker.kategori = wisata.category;
       this.$refs.marker.mapObject.openPopup(location);
     },
   },
-  mounted() {
-    console.log(this.lokasiWisata);
-  },
+  mounted(){
+    console.log(this.lokasiWisata)
+  }
 };
 </script>
