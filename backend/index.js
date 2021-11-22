@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const cors = require('cors');
+const path = require("path");
 
 const app = express();
 // Memberi batas untuk mengakses API
@@ -18,10 +19,11 @@ const cors_option = {
     }
 }
 
+app.use(express.static(path.join(__dirname, "public")));
+
 // setting passport
 app.use(passport.initialize())
 require('./app/config/passport.config')(passport)
-
 
 app.use(cors(cors_option));
 app.use(bodyParser.json());

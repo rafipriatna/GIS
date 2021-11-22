@@ -18,11 +18,11 @@ const uploadImg = multer({
     fileFilter: filter
 }).single('file')
 
-// const uploadImg1 = multer({
-//     dest: lokasiGambar,
-//     limits: { fieldSize: 1024 * 1024 * 3 },
-//     fileFilter: filter
-// }).single('photo')
+const uploadArray = multer({
+    dest: lokasiGambar,
+    limits: { fieldSize: 1024 * 1024 * 3 },
+    fileFilter: filter
+}).array('file')
 
 exports.inputWisata = (req, res) => {
     uploadImg(req, res, (error) => {
@@ -89,47 +89,21 @@ exports.tambahFoto = (req, res) => {
                 }
                 let foto_galeri = [];
                 data.galleries.map((file) => foto_galeri.push(file));
+                // req.files.map((file) => {
+                //     foto_galeri.push({
+                //         photo: file.filename,
+                //     });
+                // });
                 foto_galeri.push({ photo: req.file.filename });
                 modelWisata.updateOne({ _id: req.params.id }, { galleries: foto_galeri },
                     function (error) {
-                        if (error) {
+                        if (error)
                             return res.status(500).json(error)
-                        }
                     }
                 )
             })
         }
     })
-    // uploadImg(req, res, (error) => {
-    //     if (error) {
-    //         res.status(500).json({
-    //             message: 'file upload error, Format file harus JPG atau PNG'
-    //         })
-    //     } else {
-    //         modelWisata.findById(req.params.id, function (error, data) {
-    //             if (error) {
-    //                 return res.status(500).json(error);
-    //             }
-    //             let foto_galeri = [];
-    //             //looping dengan map
-    //             console.log(req.file)
-    //             data.galleries.map((file) => foto_galeri.push(file));
-    //             foto_galeri.push({ file: req.file.filename });
-    //             modelWisata.updateOne({ _id: req.params.id }, { galleries: foto_galeri },
-    //                 function (error) {
-    //                     if (error) {
-    //                         return res.status(500).json(error)
-    //                     } else {
-    //                         return res.status(200).json({
-    //                             message: 'Berhasil menambahkan foto!',
-    //                             data: data
-    //                         })
-    //                     }
-    //                 }
-    //             )
-    //         })
-    //     }
-    // })
 }
 
 //hapus foto
@@ -138,21 +112,17 @@ exports.hapusFoto = (req, res) => {
         if (error) {
             return res.status(500).json(error)
         }
-        if (fs.existsSync(path + req.body.file)) {
-            fs.unlinkSync(path + req.body.file)
+        if (fs.existsSync(lokasiGambar + req.body.file)) {
+            fs.unlinkSync(lokasiGambar + req.body.file)
         }
         foto_galeri = [];
-        data.foto_galeri
-            .filter((file) => file.file != req.body.file)
-            .map((file) => foto_galeri.push(file))
-        modelWisata.updateOne({ _id: req.params.id }, { foto_galeri: foto_galeri },
+        data.galleries
+            .filter((file) => file.photo != req.body.file)
+            .map((file) => foto_galeri.push({ photo: file.photo }))
+        modelWisata.updateOne({ _id: req.params.id }, { galleries: foto_galeri },
             function (error) {
-                if (error) {
+                if (error)
                     return res.status(500).json(error)
-                    res.status(200).json({
-                        message: 'Berhasil menghapus foto!'
-                    })
-                }
             }
         )
     })

@@ -15,13 +15,13 @@ router.get('/', passport.authenticate('adminAuth', {
 //     session: false
 // }), controller.ubaWisata)
 
-// router.get('/', passport.authenticate('adminAuth', {
-//     session: false
-// }), controller.hapusFoto)
-
 router.post('/upload/:id', passport.authenticate('adminAuth', {
     session: false
 }), controller.tambahFoto)
+
+router.post('/delete/:id', passport.authenticate('adminAuth', {
+    session: false
+}), controller.hapusFoto)
 
 // router.get('/', passport.authenticate('adminAuth', {
 //     session: false
