@@ -41,7 +41,6 @@
                 <th class="py-3 px-6 text-left">Galeri</th>
                 <th class="py-3 px-6 text-left">Lat/Long</th>
                 <th class="py-3 px-6 text-center">Daerah</th>
-                <th class="py-3 px-6 text-center">Alamat</th>
                 <th class="py-3 px-6 text-center">Fasilitas</th>
                 <th class="py-3 px-6 text-center">Opsi</th>
               </tr>
@@ -77,17 +76,21 @@
                 </td>
                 <td class="py-3 px-6">
                   <div class="flex items-center justify-start">
-                    <img
-                      class="
-                        w-6
-                        h-6
-                        rounded
-                        border-gray-200 border
-                        transform
-                        hover:scale-125
-                      "
-                      src="https://randomuser.me/api/portraits/men/1.jpg"
-                    />
+                    <template v-if="wisata.galleries.length > 0">
+                      <img
+                        v-for="(item, index) in wisata.galleries.slice(0, 3)"
+                        :key="index"
+                        class="
+                          w-6
+                          h-6
+                          rounded
+                          border-gray-200 border
+                          transform
+                          hover:scale-125
+                        "
+                        :src="'http://localhost:7000/images/' + item.file"
+                      />
+                    </template>
 
                     <div
                       class="
@@ -122,9 +125,6 @@
                 </td>
                 <td class="py-3 px-6 text-center">
                   {{ wisata.location.district }}
-                </td>
-                <td class="py-3 px-6 text-center">
-                  {{ wisata.location.address }}
                 </td>
                 <td class="py-3 px-6 text-center">
                   <span
@@ -248,6 +248,7 @@
       :min-height="200"
       :scrollable="true"
       :reset="true"
+      @closed="refreshData"
       width="60%"
       height="auto"
     >
@@ -401,8 +402,6 @@ export default {
         this.fileRecordsForUpload
       );
       this.fileRecordsForUpload = [];
-      this.wisata = [];
-      this.getData();
     },
     onBeforeDelete: function (fileRecord) {
       var i = this.fileRecordsForUpload.indexOf(fileRecord);
@@ -434,6 +433,10 @@ export default {
       this.idWisata = id;
       this.fileRecords = this.wisata[id].galleries;
       this.$modal.show("gallery");
+    },
+    refreshData() {
+      this.wisata = [];
+      this.getData();
     },
   },
   mounted() {
