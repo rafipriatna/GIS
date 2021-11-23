@@ -59,22 +59,50 @@ exports.inputWisata = (req, res) => {
 
 //ubah tempat wisata
 exports.ubaWisata = (req, res) => {
-    //upload foto
-    model.findByIdAndUpdate(
-        req.params.id,
-        req.body, {
-        upsert: true,
-        new: true
-    },
-        function (error, data) {
-            if (error)
-                return res.status(500).json(error)
-            res.status(200).json({
-                message: 'Berhasil diubah!',
-                data: data
-            })
+    uploadImg(req, res, (error) => {
+        if (error) {
+            return res.status(500).json(error)
+        } else {
+
+            let data = {}
+
+            if (req.file) {
+                data = {
+                    name: req.body.name,
+                    travel_category: req.body.travel_category,
+                    location: JSON.parse(req.body.location),
+                    description: req.body.description,
+                    facilities: req.body.facilities,
+                    thumbnail: req.file.filename
+                }
+            } else {
+                data = {
+                    name: req.body.name,
+                    travel_category: req.body.travel_category,
+                    location: JSON.parse(req.body.location),
+                    description: req.body.description,
+                    facilities: req.body.facilities,
+                }
+            }
+
+            modelWisata.findByIdAndUpdate(
+                req.params.id,
+                data, {
+                upsert: true,
+                new: true
+            },
+                function (error, data) {
+                    if (error)
+                        return res.status(500).json(error)
+                    res.status(200).json({
+                        message: 'Berhasil diubah!',
+                        data: data
+                    })
+                }
+            )
+
         }
-    )
+    })
 }
 
 // tambah foto
@@ -154,6 +182,20 @@ exports.listWisata = (req, res) => {
             return res.status(200).json({
                 message: 'Daftar tempat wisata',
                 data: listWisata
+            })
+        }).catch((error) => {
+            req.status(500).json(error)
+        })
+}
+
+//tampilkan data wisata berdasarkan ID
+exports.listWisataById = (req, res) => {
+    modelWisata
+        .findById(req.params.id)
+        .then(data => {
+            return res.status(200).json({
+                message: 'Detail tempat wisata',
+                data: data
             })
         }).catch((error) => {
             req.status(500).json(error)

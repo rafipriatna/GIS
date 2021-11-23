@@ -11,9 +11,13 @@ router.get('/', passport.authenticate('adminAuth', {
     session: false
 }), controller.listWisata)
 
-// router.get('/', passport.authenticate('adminAuth', {
-//     session: false
-// }), controller.ubaWisata)
+router.get('/:id', passport.authenticate('adminAuth', {
+    session: false
+}), controller.listWisataById)
+
+router.patch('/:id', passport.authenticate('adminAuth', {
+    session: false
+}), controller.ubaWisata)
 
 router.post('/upload/:id', passport.authenticate('adminAuth', {
     session: false
