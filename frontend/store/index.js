@@ -16,5 +16,13 @@ export const actions = {
     async tambahDataWisata(context, data) {
         let res = await this.$axios.$post(`${this.$axios.defaults.baseURL}/admin/wisata/`, data)
         return res.data
-    }
+    },
+    async getDataWisataById(context, id) {
+        let res = await this.$axios.$get(`${this.$axios.defaults.baseURL}/admin/wisata/${id}`)
+        return res.data
+    },
+    async ubahDataWisata(context, data) {
+        let res = await this.$axios.$patch(`${this.$axios.defaults.baseURL}/admin/wisata/${data.get("id")}`, data)
+        return res.data
+    },
 }
