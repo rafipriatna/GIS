@@ -209,6 +209,7 @@
                         cursor-pointer
                       "
                       title="Hapus wisata"
+                      @click="hapusWisata(wisata._id, wisata.name)"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -438,6 +439,38 @@ export default {
     refreshData() {
       this.wisata = [];
       this.getData();
+    },
+    hapusWisata(id, nama) {
+      this.$swal({
+        title: `Hapus ${nama}?`,
+        text: "Hati-hati! Data yang sudah dihapus nggak bisa dikembalikan lagi.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Iya, hapus aja",
+        cancelButtonText: "Nggak jadi",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.$store
+            .dispatch("hapusDataWisata", id)
+            .then(() => {
+              this.$swal(
+                "Terhapus!",
+                "Yay! Data kamu udah hilang 😁",
+                "success"
+              );
+              this.refreshData();
+            })
+            .catch(() => {
+              this.$swal(
+                "Error!",
+                "Waduh, nggak bisa ngehapus data kamu, nih! 😅",
+                "error"
+              );
+            });
+        }
+      });
     },
   },
   mounted() {

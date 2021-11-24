@@ -158,17 +158,21 @@ exports.hapusFoto = (req, res) => {
 
 //
 exports.hapusWisata = (req, res) => {
-    modelArtikel
-        .findByIdAndDelete(req.params.id, function (error, artikel) {
+    modelWisata
+        .findByIdAndDelete(req.params.id, function (error, data) {
             if (error) {
                 return res.status(500).json(error)
             } else {
-                if (fs.existsSync(lokasiGambar + artikel.gambar)) {
-                    fs.unlinkSync(lokasiGambar + artikel.gambar)
-                }
-                console.log(lokasiGambar + artikel.gambar)
+
+                // Looping hapus gambar
+                data.galleries.map(file => {
+                    if (fs.existsSync(lokasiGambar + file.photo)) {
+                        fs.unlinkSync(lokasiGambar + file.photo)
+                    }
+                })
+
                 res.status(200).json({
-                    message: 'Data artikel berhasil dihapus!'
+                    message: 'Data berhasil dihapus!'
                 })
             }
         })

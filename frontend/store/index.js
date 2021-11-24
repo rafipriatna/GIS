@@ -25,4 +25,8 @@ export const actions = {
         let res = await this.$axios.$patch(`${this.$axios.defaults.baseURL}/admin/wisata/${data.get("id")}`, data)
         return res.data
     },
+    async hapusDataWisata(context, id) {
+        let res = await this.$axios.$delete(`${this.$axios.defaults.baseURL}/admin/wisata/${id}`)
+        return res.data
+    },
 }
