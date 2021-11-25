@@ -33,11 +33,11 @@ export const actions = {
 
     // Pengunjung
     async getWisataPengunjung() {
-        let res = await this.$axios.$get(`${this.$axios.defaults.baseURL}/`)
+        let res = await this.$axios.$get(`${this.$axios.defaults.baseURL}/public/`)
         return res.data
     },
     async getWisataPengunjungBySlug(context, slug) {
-        let res = await this.$axios.$get(`${this.$axios.defaults.baseURL}/${slug}`)
+        let res = await this.$axios.$get(`${this.$axios.defaults.baseURL}/public/${slug}`)
         return res.data
     }
 }

@@ -51,7 +51,7 @@ app.get('/', (req, res) => {
 
 // panggil fungsi router
 const pengunjung = require('./app/routes/pengunjung.route')
-app.use('/api/', pengunjung)
+app.use('/api/public', pengunjung)
 
 const auth = require('./app/routes/auth.route')
 app.use('/api/auth', auth)
