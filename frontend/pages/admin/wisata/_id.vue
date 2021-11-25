@@ -199,6 +199,66 @@
               <h3 class="text-lg text-black my-2">Lainnya</h3>
               <div class="mb-4">
                 <label class="block text-sm text-gray-600 pb-2"
+                  >Hari Buka</label
+                >
+                <input
+                  class="
+                    w-full
+                    px-4
+                    py-2
+                    text-gray-700
+                    bg-gray-200
+                    rounded
+                    outline-none
+                  "
+                  type="text"
+                  required
+                  placeholder="Setiap Hari"
+                  v-model="operational.days"
+                />
+              </div>
+              <div class="mb-4">
+                <div class="inline-block w-1/2 pr-1">
+                  <label class="block text-sm text-gray-600 pb-2"
+                    >Jam Buka</label
+                  >
+                  <input
+                    class="
+                      w-full
+                      px-4
+                      py-2
+                      text-gray-700
+                      bg-gray-200
+                      rounded
+                      outline-none
+                    "
+                    type="time"
+                    required
+                    v-model="operational.open_hour"
+                  />
+                </div>
+                <div class="inline-block -mx-1 pl-1 w-1/2">
+                  <label class="block text-sm text-gray-600 pb-2"
+                    >Jam Tutup</label
+                  >
+                  <input
+                    class="
+                      w-full
+                      px-4
+                      py-2
+                      text-gray-700
+                      bg-gray-200
+                      rounded
+                      outline-none
+                    "
+                    type="time"
+                    required
+                    v-model="operational.close_hour"
+                  />
+                </div>
+              </div>
+              <div class="mb-4">
+                <label class="block text-sm text-gray-600 pb-2"
                   >Keterangan</label
                 >
                 <textarea
@@ -271,6 +331,11 @@ export default {
       thumbnail: null,
       imagePreview:
         "https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg",
+      operational: {
+        days: null,
+        open_hour: null,
+        close_hour: null,
+      },
     };
   },
   methods: {
@@ -285,6 +350,9 @@ export default {
         this.location.address = res.location.address;
         this.description = res.description;
         this.imagePreview = `${this.$config.serverURL}/images/${res.thumbnail}`;
+        this.operational.days = res.operational.days;
+        this.operational.open_hour = res.operational.open_hour;
+        this.operational.close_hour = res.operational.close_hour;
       });
     },
     onImageSelected(event) {
@@ -303,8 +371,11 @@ export default {
         data.set("name", this.name);
         data.set("travel_category", this.travel_category);
         data.append("location", JSON.stringify(this.location));
+        data.append("operational", JSON.stringify(this.operational));
         data.set("description", this.description);
-        data.append("file", this.thumbnail, this.thumbnail.name);
+
+        if (this.thumbnail)
+          data.append("file", this.thumbnail, this.thumbnail.name);
 
         this.$store.dispatch("ubahDataWisata", data).then((res) => {
           this.$swal("Mantappu");
@@ -329,7 +400,12 @@ export default {
         this.location == "" ||
         this.description == null ||
         this.description == "" ||
-        (this.thumbnail == null) | (this.thumbnail == "")
+        this.operational.days == null ||
+        this.operational.days == "" ||
+        this.operational.open_hour == null ||
+        this.operational.open_hour == "" ||
+        this.operational.close_hour == null ||
+        this.operational.close_hour == ""
       )
         return false;
 

@@ -52,6 +52,12 @@ const wisataShema = new Shema({
         type: String,
         required: true
     },
+    ticket_price: Number,
+    operational: {
+        days: { type: String, required: true },
+        open_hour: { type: String, required: true },
+        close_hour: { type: String, required: true }
+    }
 }, {
     collection: 'wisata'
 })

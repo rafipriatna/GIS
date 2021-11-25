@@ -1,7 +1,7 @@
 <template>
   <div v-if="dataLoaded">
     <nav
-      class="text-black font-bold my-8 cursor-default"
+      class="text-black font-bold my-8 cursor-default lg:ml-4"
       aria-label="Breadcrumb"
     >
       <ol class="list-none p-0 inline-flex">
@@ -96,6 +96,27 @@
               </div>
             </div>
           </section>
+
+          <section>
+            <h2 class="text-lg font-semibold mt-6 mb-2">Tentang Wisata</h2>
+            <p class="text-gray-400">{{ wisata.description }}</p>
+
+            <h2 class="text-lg font-semibold mt-6 mb-2">Fasilitas</h2>
+            <span
+              v-for="(facility, index) in wisata.facilities"
+              :key="index"
+              class="
+                bg-gray-200
+                text-gray-600
+                py-1
+                px-3
+                rounded-full
+                text-xs
+                mx-1
+              "
+              >{{ facility }}</span
+            >
+          </section>
         </div>
       </div>
 
@@ -141,7 +162,7 @@ export default {
     },
     showSlide(n) {
       const banyakFoto = this.wisata.galleries.length;
-      console.log(n > banyakFoto)
+      console.log(n > banyakFoto);
       if (n >= banyakFoto || n < 0) {
         this.slides.slideIndex = 0;
       } else {

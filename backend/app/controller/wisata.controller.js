@@ -1,5 +1,4 @@
 const modelWisata = require('../model/wisata.model');
-const { model } = require('mongoose');
 const lokasiGambar = 'public/images/';
 const multer = require('multer');
 const fs = require('fs');
@@ -18,12 +17,6 @@ const uploadImg = multer({
     fileFilter: filter
 }).single('file')
 
-const uploadArray = multer({
-    dest: lokasiGambar,
-    limits: { fieldSize: 1024 * 1024 * 3 },
-    fileFilter: filter
-}).array('file')
-
 exports.inputWisata = (req, res) => {
     uploadImg(req, res, (error) => {
         if (error) {
@@ -38,7 +31,9 @@ exports.inputWisata = (req, res) => {
                 location: JSON.parse(req.body.location),
                 description: req.body.description,
                 facilities: req.body.facilities,
-                thumbnail: req.file.filename
+                thumbnail: req.file.filename,
+                ticket_price: req.body.ticket_price,
+                operational: JSON.parse(req.body.operational)
             }
 
             // Simpan data
@@ -73,7 +68,9 @@ exports.ubaWisata = (req, res) => {
                     location: JSON.parse(req.body.location),
                     description: req.body.description,
                     facilities: req.body.facilities,
-                    thumbnail: req.file.filename
+                    thumbnail: req.file.filename,
+                    ticket_price: req.body.ticket_price,
+                    operational: JSON.parse(req.body.operational)
                 }
             } else {
                 data = {
@@ -82,6 +79,8 @@ exports.ubaWisata = (req, res) => {
                     location: JSON.parse(req.body.location),
                     description: req.body.description,
                     facilities: req.body.facilities,
+                    ticket_price: req.body.ticket_price,
+                    operational: JSON.parse(req.body.operational)
                 }
             }
 
@@ -117,11 +116,6 @@ exports.tambahFoto = (req, res) => {
                 }
                 let foto_galeri = [];
                 data.galleries.map((file) => foto_galeri.push(file));
-                // req.files.map((file) => {
-                //     foto_galeri.push({
-                //         photo: file.filename,
-                //     });
-                // });
                 foto_galeri.push({ photo: req.file.filename });
                 modelWisata.updateOne({ _id: req.params.id }, { galleries: foto_galeri },
                     function (error) {
