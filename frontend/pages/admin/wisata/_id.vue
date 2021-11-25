@@ -198,24 +198,45 @@
             <div class="w-full overflow-hidden sm:my-4 sm:px-4 sm:w-1/3">
               <h3 class="text-lg text-black my-2">Lainnya</h3>
               <div class="mb-4">
-                <label class="block text-sm text-gray-600 pb-2"
-                  >Hari Buka</label
-                >
-                <input
-                  class="
-                    w-full
-                    px-4
-                    py-2
-                    text-gray-700
-                    bg-gray-200
-                    rounded
-                    outline-none
-                  "
-                  type="text"
-                  required
-                  placeholder="Setiap Hari"
-                  v-model="operational.days"
-                />
+                <div class="inline-block w-1/2 pr-1">
+                  <label class="block text-sm text-gray-600 pb-2"
+                    >Hari Buka</label
+                  >
+                  <input
+                    class="
+                      w-full
+                      px-4
+                      py-2
+                      text-gray-700
+                      bg-gray-200
+                      rounded
+                      outline-none
+                    "
+                    type="text"
+                    required
+                    placeholder="Setiap Hari"
+                    v-model="operational.days"
+                  />
+                </div>
+                <div class="inline-block -mx-1 pl-1 w-1/2">
+                  <label class="block text-sm text-gray-600 pb-2"
+                    >Harga Tiket</label
+                  >
+                  <input
+                    class="
+                      w-full
+                      px-4
+                      py-2
+                      text-gray-700
+                      bg-gray-200
+                      rounded
+                      outline-none
+                    "
+                    type="number"
+                    required
+                    v-model="ticket_price"
+                  />
+                </div>
               </div>
               <div class="mb-4">
                 <div class="inline-block w-1/2 pr-1">
@@ -336,6 +357,7 @@ export default {
         open_hour: null,
         close_hour: null,
       },
+      ticket_price: null,
     };
   },
   methods: {
@@ -350,6 +372,7 @@ export default {
         this.location.address = res.location.address;
         this.description = res.description;
         this.imagePreview = `${this.$config.serverURL}/images/${res.thumbnail}`;
+        this.ticket_price = res.ticket_price;
         this.operational.days = res.operational.days;
         this.operational.open_hour = res.operational.open_hour;
         this.operational.close_hour = res.operational.close_hour;
@@ -372,6 +395,7 @@ export default {
         data.set("travel_category", this.travel_category);
         data.append("location", JSON.stringify(this.location));
         data.append("operational", JSON.stringify(this.operational));
+        data.set("ticket_price", this.ticket_price);
         data.set("description", this.description);
 
         if (this.thumbnail)
@@ -405,7 +429,9 @@ export default {
         this.operational.open_hour == null ||
         this.operational.open_hour == "" ||
         this.operational.close_hour == null ||
-        this.operational.close_hour == ""
+        this.operational.close_hour == "" ||
+        this.ticket_price == "" ||
+        this.ticket_price == null
       )
         return false;
 

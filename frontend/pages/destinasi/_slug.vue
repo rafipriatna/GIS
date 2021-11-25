@@ -122,7 +122,38 @@
 
       <div class="w-3/6">
         <div class="rounded border bg-white p-4">
-          <h1 class="text-lg font-semibold">Informasi</h1>
+          <h1 class="text-lg font-semibold mb-4">Informasi</h1>
+          <table class="w-full table-auto">
+            <tbody>
+              <tr class="h-10">
+                <th width="50%" class="text-left">Alamat</th>
+                <td width="50%" class="text-right">
+                  {{ wisata.location.address }}
+                </td>
+              </tr>
+              <tr class="h-10">
+                <th width="50%" class="text-left">Lat/Long</th>
+                <td width="50%" class="text-right">
+                  {{ wisata.location.latitude }}/{{ wisata.location.longitude }}
+                </td>
+              </tr>
+              <tr class="h-10">
+                <th width="50%" class="text-left">Harga Tiket</th>
+                <td width="50%" class="text-right">
+                  {{ wisata.ticket_price }}
+                </td>
+              </tr>
+              <tr class="h-10">
+                <th width="50%" class="text-left">Operasional</th>
+                <td width="50%" class="text-right">
+                  {{ wisata.operational.days }}<br />Pukul
+                  {{ wisata.operational.open_hour }}-{{
+                    wisata.operational.close_hour
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -150,6 +181,7 @@ export default {
         .dispatch("getWisataPengunjungBySlug", this.slug)
         .then((res) => {
           this.wisata = res[0];
+          console.log(this.wisata);
           this.dataLoaded = true;
           this.showSlide(0);
         });
