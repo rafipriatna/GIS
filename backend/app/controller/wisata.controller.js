@@ -193,9 +193,25 @@ exports.listWisata = (req, res) => {
 }
 
 //tampilkan data wisata berdasarkan ID
-exports.listWisataById = (req, res) => {
+exports.getWisataById = (req, res) => {
     modelWisata
         .findById(req.params.id)
+        .then(data => {
+            return res.status(200).json({
+                message: 'Detail tempat wisata',
+                data: data
+            })
+        }).catch((error) => {
+            req.status(500).json(error)
+        })
+}
+
+//tampilkan data wisata berdasarkan ID
+exports.getWisataBySlug = (req, res) => {
+    modelWisata
+        .find({
+            slug: req.params.slug
+        })
         .then(data => {
             return res.status(200).json({
                 message: 'Detail tempat wisata',

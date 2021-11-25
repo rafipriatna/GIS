@@ -13,7 +13,7 @@ router.get('/', passport.authenticate('adminAuth', {
 
 router.get('/:id', passport.authenticate('adminAuth', {
     session: false
-}), controller.listWisataById)
+}), controller.getWisataById)
 
 router.patch('/:id', passport.authenticate('adminAuth', {
     session: false
