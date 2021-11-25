@@ -25,8 +25,10 @@
       <div class="w-full">
         <div class="rounded border bg-white p-4">
           <div class="mb-8">
-            <h1 class="text-xl font-semibold">Nama Wisata</h1>
-            <p class="text-gray-400 text-lg mt-1">Cipondoh</p>
+            <h1 class="text-xl font-semibold">{{ wisata.name }}</h1>
+            <p class="text-gray-400 text-lg mt-1">
+              {{ wisata.location.district }}
+            </p>
           </div>
 
           <section>
