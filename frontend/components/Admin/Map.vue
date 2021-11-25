@@ -95,8 +95,5 @@ export default {
       this.$refs.marker.mapObject.openPopup(location);
     },
   },
-  mounted(){
-    console.log(this.lokasiWisata)
-  }
 };
 </script>
