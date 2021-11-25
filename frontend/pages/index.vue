@@ -26,7 +26,7 @@ export default {
   },
   methods: {
     getData() {
-      this.$store.dispatch("getDataWisata").then((res) => {
+      this.$store.dispatch("getWisataPengunjung").then((res) => {
         this.wisata = res.slice(0, 4)
         this.lokasiWisata = res
       });

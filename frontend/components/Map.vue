@@ -210,23 +210,23 @@ export default {
       },
       cariLokasiWisata: "",
       marker: {
-        name: null,
+        nama: null,
         thumbnail: null,
-        description: "Keterangan ketika destinasi diklik.",
-        category: null,
+        keterangan: "Keterangan ketika destinasi diklik.",
+        kategori: null,
       },
     };
   },
   methods: {
     greet: function (wisata) {
       const location = [wisata.location.latitude, wisata.location.longitude];
-
+      console.log(wisata)
       this.map.center = location;
       // this.marker.latLng = location;
       this.marker.nama = wisata.name;
       this.marker.thumbnail = `http://localhost:7000/images/${wisata.thumbnail}`;
       this.marker.keterangan = wisata.description;
-      this.marker.kategori = wisata.category;
+      this.marker.kategori = wisata.travel_category;
       this.$refs.marker.mapObject.openPopup(location);
     },
   },

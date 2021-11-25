@@ -29,4 +29,15 @@ export const actions = {
         let res = await this.$axios.$delete(`${this.$axios.defaults.baseURL}/admin/wisata/${id}`)
         return res.data
     },
+
+
+    // Pengunjung
+    async getWisataPengunjung() {
+        let res = await this.$axios.$get(`${this.$axios.defaults.baseURL}/`)
+        return res.data
+    },
+    async getWisataPengunjungBySlug(context, slug) {
+        let res = await this.$axios.$get(`${this.$axios.defaults.baseURL}/${slug}`)
+        return res.data
+    }
 }

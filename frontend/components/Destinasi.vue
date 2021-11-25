@@ -7,7 +7,8 @@
           v-for="(item, index) in wisata"
           :key="index"
         >
-          <div
+          <nuxtLink
+            :to="'/destinasi/' + item.slug"
             class="
               cursor-pointer
               overflow-hidden
@@ -20,9 +21,9 @@
               :src="'http://localhost:7000/images/' + item.thumbnail"
               class="object-cover rounded-lg w-96 h-96 lg:w-64 lg:h-64"
             />
-            <h1 class="mt-4 font-bold text-lg">Telaga Cisoka</h1>
-            <h2 class="text-gray-400 text-lg">Cisoka</h2>
-          </div>
+            <h1 class="mt-4 font-bold text-lg">{{ item.name }}</h1>
+            <h2 class="text-gray-400 text-lg">{{ item.location.district }}</h2>
+          </nuxtLink>
         </div>
       </div>
     </div>
