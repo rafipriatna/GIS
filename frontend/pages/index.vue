@@ -9,16 +9,31 @@
       Mulai dari wisata keluarga hingga <br />
       taman bermain.
     </p>
-    <Destinasi />
+    <Destinasi :wisata="this.wisata" />
     <h1 class="text-4xl font-bold text-center my-20">Destinasi Wisata</h1>
-    <Map class="h-screen" />
+    <Map class="h-screen" :lokasiWisata="lokasiWisata" />
   </div>
 </template>
 
 <script>
 export default {
   layout: "visitor",
+  data() {
+    return {
+      wisata: [],
+      lokasiWisata: []
+    }
+  },
+  methods: {
+    getData() {
+      this.$store.dispatch("getDataWisata").then((res) => {
+        this.wisata = res.slice(0, 4)
+        this.lokasiWisata = res
+      });
+    }
+  },
   mounted() {
+    this.getData();
     var section = this.$router.currentRoute.hash.replace("#", "");
     if (section)
       this.$nextTick(() =>

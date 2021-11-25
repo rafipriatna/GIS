@@ -1,11 +1,14 @@
 <template>
-  <div>
-    <!-- <Map class="h-1/2" /> -->
-  </div>
+  <div></div>
 </template>
 
 <script>
 export default {
   layout: "visitor",
+  data() {
+    return {
+      slug: this.params.slug,
+    };
+  },
 };
 </script>

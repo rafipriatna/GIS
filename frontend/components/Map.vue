@@ -18,16 +18,41 @@
               v-for="(wisata, index) in lokasiWisata"
               :key="index"
               @click="greet(wisata)"
-              :lat-lng="[wisata.lokasi.lat, wisata.lokasi.long]"
+              :lat-lng="[wisata.location.latitude, wisata.location.longitude]"
             >
               <l-icon
                 icon-url="https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png"
               ></l-icon>
             </l-marker>
             <l-layer-group ref="marker">
-              <l-popup :options="{ offset: [1, -20] }">{{
-                marker.keterangan
-              }}</l-popup>
+              <l-popup :options="{ offset: [1, -20] }" class="w-48">
+                <div class="flex justify-center items-center">
+                  <div class="overflow-hidden">
+                    <img :src="marker.thumbnail" class="object-cover rounded" />
+                    <h1 class="mt-4 font-bold text-lg">{{ marker.nama }}</h1>
+                    <h3 class="text-gray-400 text-md">{{ marker.kategori }}</h3>
+                    <p class="text-gray-400 text-md">{{ marker.keterangan }}</p>
+
+                    <button
+                      class="
+                        bg-transparent
+                        hover:bg-blue-500
+                        text-blue-700
+                        font-semibold
+                        hover:text-white
+                        py-2
+                        px-4
+                        border border-blue-500
+                        hover:border-transparent
+                        rounded
+                        w-full
+                      "
+                    >
+                      Selengkapnya
+                    </button>
+                  </div>
+                </div>
+              </l-popup>
             </l-layer-group>
           </l-map>
         </no-ssr>
@@ -143,16 +168,18 @@
                 >
                   <div class="flex items-center space-x-4">
                     <img
-                      :src="wisata.image"
-                      :alt="wisata.nama"
+                      :src="'http://localhost:7000/images/' + wisata.thumbnail"
+                      :alt="wisata.name"
                       class="w-16 h-16 rounded-lg object-cover"
                     />
                   </div>
                   <div class="flex-grow p-3">
                     <div class="font-semibold text-gray-700">
-                      {{ wisata.nama }}
+                      {{ wisata.name }}
                     </div>
-                    <div class="text-sm text-gray-500">Cisoka</div>
+                    <div class="text-sm text-gray-500">
+                      {{ wisata.location.district }}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -169,6 +196,7 @@
 import tangerangKotaJson from "@/assets/tangerangkotapoly.json";
 
 export default {
+  props: ["lokasiWisata"],
   data() {
     return {
       tampilDestinasi: true,
@@ -181,40 +209,24 @@ export default {
         geoJSON: tangerangKotaJson,
       },
       cariLokasiWisata: "",
-      lokasiWisata: [
-        {
-          nama: "Telaga Cisoka",
-          lokasi: {
-            lat: "-6.2779955",
-            long: "106.4284082",
-          },
-          keterangan: "Lokasi Telaga Cisoka mantap cuk.",
-          image:
-            "http://blog.pergi.com/wp-content/uploads/2018/08/30076248_439823839793054_924115978135011328_n.jpg",
-        },
-        {
-          nama: "Tebing Koja",
-          lokasi: {
-            lat: "-6.3145481",
-            long: "106.3957942",
-          },
-          keterangan: "Tempat ini cocok untuk melompat.",
-          image:
-            "https://tangselmedia.com/wp-content/uploads/2020/02/Liburan-Murah-Berwisata-ke-Tebing-Koja-Tangerang-Selatan-asle.jpg",
-        },
-      ],
       marker: {
-        keterangan: "Keterangan ketika destinasi diklik.",
+        name: null,
+        thumbnail: null,
+        description: "Keterangan ketika destinasi diklik.",
+        category: null,
       },
     };
   },
   methods: {
     greet: function (wisata) {
-      const location = [wisata.lokasi.lat, wisata.lokasi.long];
+      const location = [wisata.location.latitude, wisata.location.longitude];
 
       this.map.center = location;
-      this.marker.latLng = location;
-      this.marker.keterangan = wisata.keterangan;
+      // this.marker.latLng = location;
+      this.marker.nama = wisata.name;
+      this.marker.thumbnail = `http://localhost:7000/images/${wisata.thumbnail}`;
+      this.marker.keterangan = wisata.description;
+      this.marker.kategori = wisata.category;
       this.$refs.marker.mapObject.openPopup(location);
     },
   },
@@ -224,7 +236,7 @@ export default {
 
       if (this.cariLokasiWisata != "" && this.cariLokasiWisata) {
         tempLokasiWisata = tempLokasiWisata.filter((item) => {
-          return item.nama
+          return item.name
             .toUpperCase()
             .includes(this.cariLokasiWisata.toUpperCase());
         });
