@@ -78,11 +78,9 @@
               >
 
               <!-- smaller images under description -->
-              <div class="flex my-4">
-                <div>
+              <div class="flex my-4 gap-2">
+                <div v-for="(item, index) in wisata.galleries" :key="index">
                   <img
-                    v-for="(item, index) in wisata.galleries"
-                    :key="index"
                     class="
                       h-24
                       opacity-50
@@ -143,12 +141,11 @@ export default {
     },
     showSlide(n) {
       const banyakFoto = this.wisata.galleries.length;
-      if (n >= banyakFoto) {
+      console.log(n > banyakFoto)
+      if (n >= banyakFoto || n < 0) {
         this.slides.slideIndex = 0;
-      } else if (n < 0) {
-        this.slides.slideIndex = this.slides.slideIndex;
       } else {
-        this.slides.slideIndex += n;
+        this.slides.slideIndex = n;
       }
 
       this.slides.current = `http://localhost:7000/images/${
