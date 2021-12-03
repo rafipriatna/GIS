@@ -1,5 +1,5 @@
 <template>
-<div class="font-poppins" id="destinasi-wisata">
+<div class="font-poppins" id="destinasi-wisata" data-aos="zoom-in-left" data-aos-duration="2000">
     <section class="text-gray-600 body-font relative h-full">
         <div class="absolute inset-0 bg-gray-300">
             <no-ssr>

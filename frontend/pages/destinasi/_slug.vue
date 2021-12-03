@@ -21,8 +21,8 @@
       </ol>
     </nav>
 
-    <div class="flex gap-4 lg:flex-row flex-col">
-      <div class="w-full">
+    <div class="flex gap-4 lg:flex-row flex-col" >
+      <div class="w-full" data-aos="fade-right" data-aos-duration="2000">
         <div class="rounded border bg-white p-4">
           <div class="mb-8">
             <h1 class="text-xl font-semibold">{{ wisata.name }}</h1>
@@ -122,11 +122,11 @@
         </div>
       </div>
 
-      <div class="w-3/6">
+      <div class="w-3/6" data-aos="fade-left" data-aos-duration="2000">
         <div class="rounded border bg-white p-4">
           <h1 class="text-lg font-semibold mb-4">Informasi</h1>
           <table class="w-full table-auto">
-            <tbody>
+            <tbody >
               <tr class="h-10">
                 <th width="50%" class="text-left">Alamat</th>
                 <td width="50%" class="text-right">

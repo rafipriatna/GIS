@@ -300,8 +300,8 @@ export default {
                         title: 'Berhasil edit',
                         text: 'Berhasil mengubah data!'
                     }).then(() => {
-                    this.$router.push("/admin/wisata");
-                })
+                        this.$router.push("/admin/wisata");
+                    })
                 });
             } else {
                 this.$swal({
