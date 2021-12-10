@@ -79,6 +79,8 @@
 </template>
 
 <script>
+import cat from "@/assets/img/cat.gif";
+
 export default {
   head: {
     title: "Admin Login",
@@ -96,9 +98,20 @@ export default {
   },
   methods: {
     lupaKataSandi() {
-      alert(
-        "Lupa kata sandi? Coba diinget-inget lagi, soalnya backend devnya ga bikin fitur reset kata sandi 😅"
-      );
+      this.$swal({
+        title: "Lupa sandi?",
+        text: "Coba diinget-inget lagi, soalnya backend devnya ga bikin fitur reset kata sandi 😅",
+        width: 600,
+        padding: "3em",
+        color: "#716add",
+        backdrop: `
+            rgba(0,0,123,0.4)
+            url(${cat})
+            left top
+            no-repeat
+        `,
+        confirmButtonText: "Siap :)",
+      });
     },
     tampilkankataSandi() {
       this.tipePassword == "password"
