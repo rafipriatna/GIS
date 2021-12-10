@@ -23,6 +23,8 @@ export default {
     plugins: [{
             src: "~plugins/vue-tags.js",
             ssr: false,
+        },
+        {
             src: '~plugins/aos',
             ssr: false,
             mode: 'client'
