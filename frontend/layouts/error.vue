@@ -60,7 +60,7 @@
 <script>
 import udin from "@/assets/img/tim/Udin.png";
 import arkan from "@/assets/img/tim/Arkan.png";
-import jack from "@/assets/img/tim/jacobus.png";
+import jack from "@/assets/img/tim/Jacobus.png";
 import agil from "@/assets/img/tim/Agil.png";
 import hugo from "@/assets/img/tim/Hugo.png";
 import rafi from "@/assets/img/tim/Rafi.jpg";
