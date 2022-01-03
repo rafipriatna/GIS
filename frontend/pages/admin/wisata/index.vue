@@ -67,7 +67,7 @@
                           hover:scale-125
                         "
                         :src="
-                          this.serverURL + '/images/' + wisata.thumbnail
+                          serverURL + '/images/' + wisata.thumbnail
                         "
                       />
                     </div>
@@ -322,7 +322,7 @@ export default {
       fileRecords: [],
       fileRecordsForUpload: [],
       idWisata: null,
-      serverURL: this.serverURL,
+      serverURL: this.$config.serverURL,
     };
   },
   methods: {
