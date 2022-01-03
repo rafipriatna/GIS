@@ -18,7 +18,7 @@
             "
           >
             <img
-              :src="'http://localhost:7000/images/' + item.thumbnail"
+              :src="serverURL + '/images/' + item.thumbnail"
               class="object-cover rounded-lg w-96 h-96 lg:w-64 lg:h-64"
             />
             <h1 class="mt-4 font-bold text-lg">{{ item.name }}</h1>
@@ -33,5 +33,10 @@
 <script>
 export default {
   props: ["wisata"],
+  data() {
+    return {
+      serverURL: this.$config.serverURL,
+    };
+  },
 };
 </script>

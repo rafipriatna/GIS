@@ -89,7 +89,7 @@ export default {
       // this.map.center = location;
       // this.marker.latLng = location;
       this.marker.nama = wisata.name;
-      this.marker.thumbnail = `http://localhost:7000/images/${wisata.thumbnail}`;
+      this.marker.thumbnail = `${this.$config.serverURL}/images/${wisata.thumbnail}`;
       this.marker.keterangan = wisata.description;
       this.marker.kategori = wisata.category;
       this.$refs.marker.mapObject.openPopup(location);

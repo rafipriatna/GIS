@@ -67,7 +67,7 @@
                           hover:scale-125
                         "
                         :src="
-                          'http://localhost:7000/images/' + wisata.thumbnail
+                          this.$config.serverURL + '/images/' + wisata.thumbnail
                         "
                       />
                     </div>
@@ -88,7 +88,7 @@
                           transform
                           hover:scale-125
                         "
-                        :src="'http://localhost:7000/images/' + item.file"
+                        :src="this.$config.serverURL + '/images/' + item.file"
                       />
                     </template>
 

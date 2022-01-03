@@ -21,7 +21,7 @@
       </ol>
     </nav>
 
-    <div class="flex gap-4 lg:flex-row flex-col" >
+    <div class="flex gap-4 lg:flex-row flex-col">
       <div class="w-full" data-aos="fade-right" data-aos-duration="2000">
         <div class="rounded border bg-white p-4">
           <div class="mb-8">
@@ -90,7 +90,7 @@
                       cursor-pointer
                       rounded-lg
                     "
-                    :src="'http://localhost:7000/images/' + item.photo"
+                    :src="serverURL + '/images/' + item.photo"
                     @click="currentSlide(index)"
                     alt="Dog's Nose"
                   />
@@ -126,7 +126,7 @@
         <div class="rounded border bg-white p-4">
           <h1 class="text-lg font-semibold mb-4">Informasi</h1>
           <table class="w-full table-auto">
-            <tbody >
+            <tbody>
               <tr class="h-10">
                 <th width="50%" class="text-left">Alamat</th>
                 <td width="50%" class="text-right">
@@ -175,6 +175,7 @@ export default {
         slideIndex: 0,
         current: null,
       },
+      serverURL: this.$config.serverURL,
     };
   },
   methods: {
@@ -183,7 +184,6 @@ export default {
         .dispatch("getWisataPengunjungBySlug", this.slug)
         .then((res) => {
           this.wisata = res[0];
-          console.log(this.wisata);
           this.dataLoaded = true;
           this.showSlide(0);
         });
@@ -196,14 +196,13 @@ export default {
     },
     showSlide(n) {
       const banyakFoto = this.wisata.galleries.length;
-      console.log(n > banyakFoto);
       if (n >= banyakFoto || n < 0) {
         this.slides.slideIndex = 0;
       } else {
         this.slides.slideIndex = n;
       }
 
-      this.slides.current = `http://localhost:7000/images/${
+      this.slides.current = `${this.serverURL}/images/${
         this.wisata.galleries[this.slides.slideIndex].photo
       }`;
     },
