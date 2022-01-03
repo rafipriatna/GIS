@@ -67,7 +67,7 @@
                           hover:scale-125
                         "
                         :src="
-                          this.$config.serverURL + '/images/' + wisata.thumbnail
+                          this.serverURL + '/images/' + wisata.thumbnail
                         "
                       />
                     </div>
@@ -88,7 +88,7 @@
                           transform
                           hover:scale-125
                         "
-                        :src="this.$config.serverURL + '/images/' + item.file"
+                        :src="serverURL + '/images/' + item.file"
                       />
                     </template>
 
@@ -322,6 +322,7 @@ export default {
       fileRecords: [],
       fileRecordsForUpload: [],
       idWisata: null,
+      serverURL: this.serverURL,
     };
   },
   methods: {
@@ -333,7 +334,7 @@ export default {
           item.galleries.map((file) => {
             gallery.push({
               file: file.photo,
-              url: `${this.$config.serverURL}/images/${file.photo}`,
+              url: `${this.serverURL}/images/${file.photo}`,
               name: file.photo,
               type: "image/jpeg",
               ext: "jpg",
@@ -367,7 +368,7 @@ export default {
     uploadFiles() {
       const token = localStorage.getItem("auth._token.local");
       this.$refs.vueFileAgent.upload(
-        `${this.$config.serverURL}api/admin/wisata/upload/${
+        `${this.serverURL}api/admin/wisata/upload/${
           this.wisata[this.idWisata]._id
         }`,
         { Authorization: token },
