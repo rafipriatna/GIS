@@ -1,5 +1,5 @@
 <template>
-  <AdminContent title="Dashboard">
+  <AdminContent class="text-center" title="Selamat Datang Admin">
   </AdminContent>
 </template>
 
