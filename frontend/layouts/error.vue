@@ -5,16 +5,15 @@
       data-aos="fade-right"
       data-aos-duration="500"
     >
-      Tentang
+      Error 😢
     </h1>
     <h3
       class="text-xl font-medium"
       data-aos="fade-right"
       data-aos-duration="1000"
     >
-        <p>
-      TanGeo adalah aplikasi peta online gratis yang diciptakan oleh Mahasiswa Gunadarma Karawaci. TanGeo dapat diakses melalui browser web untuk perangkat desktop dan perangkat mobile . Anda dapat menggunakan TanGeo untuk mendapatkan informasi tentang wisata untuk daerah khusus Tangerang.
-          </p>
+      Ini bukan salahmu, tapi salah kami!<br />
+      Silakan pilih salah satu di antara kami untuk dieksekusi 😈
     </h3>
 
     <section class="pt-20 pb-20">
@@ -48,6 +47,13 @@
         </div>
       </div>
     </section>
+
+    <p>
+      Tidak mau memilih? Gapapa, kamu bisa langsung
+      <a href="/" class="text-blue-700 font-medium"
+        >kembali ke halaman beranda</a
+      >.
+    </p>
   </div>
 </template>
 
@@ -58,10 +64,9 @@ import jack from "@/assets/img/tim/Jacobus.png";
 import agil from "@/assets/img/tim/Agil.png";
 import hugo from "@/assets/img/tim/Hugo.png";
 import rafi from "@/assets/img/tim/Rafi.jpg";
-
 export default {
   head: {
-    title: "Tentang",
+    title: "Error :(",
   },
   layout: "visitor",
   data() {
@@ -70,27 +75,27 @@ export default {
         {
           nama: "Alifahdun Hamzah",
           posisi: "System Analyst",
-          foto: rafi,
+          foto: udin,
         },
         {
           nama: "Arkan Amir",
           posisi: "Requirement Gathering",
-          foto: rafi,
+          foto: arkan,
         },
         {
           nama: "Hugo Agung Hokiarto",
           posisi: "Software Design",
-          foto: rafi,
+          foto: hugo,
         },
         {
           nama: "Fikri Wanagiel",
           posisi: "Module Design, Ketua",
-          foto: rafi,
+          foto: agil,
         },
         {
           nama: "Jacobus Hans Gradianto",
           posisi: "Backend Dev",
-          foto: rafi,
+          foto: jack,
         },
         {
           nama: "Rafi Priatna Kasbiantoro",
